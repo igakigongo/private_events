@@ -13,3 +13,16 @@
  *= require_tree .
  *= require_self
  */
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import "bootstrap";
+
+main {
+  padding-top: 4rem;
+}
+
+#error_explanation {
+  font-size: 1rem;
+  h2 {
+    font-size: inherit;
+  }
+}

@@ -20,9 +20,11 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   ExcludedMethods: ['describe']
 
+Style/ClassAndModuleChildren:
+  Enabled: false
 Style/Documentation:
   Enabled: false
-Style/ClassAndModuleChildren:
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 Layout/AlignHash:
