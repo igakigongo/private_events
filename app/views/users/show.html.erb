@@ -1,9 +1,38 @@
-<p id="notice"><%= notice %></p>
+<div class="col-12 px-0">
+  <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+  
+</div>
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<div class="col-12 px-0">
+  <div class="row">
+    <div class="col-4">
+      <h1 class="display-4">
+        <%= @user.name %>
+      </h1>
+      <p>
+        <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-outline-success' %>
+        <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary' %>
+      </p>
+    </div>
+    <div class="col-8">
+      <% if @user.events.any? %>
+        <h1 class="display-5 text-muted text-right">
+          Events
+        </h1>
+        <% @user.events.order(date: :asc).each do |e| %>
+          <p class="rounded shadow my-3 p-3">
+            <span class="text-success"><%= e.date.strftime("%d %^b %Y") %></span>
+            <span class="text-muted px-5"><%= e.title %></span>
+          <p>
+        <% end %>
+      <% else %>
+        <div class="alert alert-primary">
+          <strong>Info:</strong> No events created by the user
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+
