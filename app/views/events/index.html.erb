@@ -4,7 +4,7 @@
     <span class="btn btn-outline-success float-right" style="font-size: .9rem;"><%= link_to 'New Event', new_event_path %></span>
   </h1>
   <% if @events.any? %>
-    <% @events.order(date: :asc).each do |e| %>
+    <% @events.sort_by{|e| e.date }.each do |e| %>
       <p class="rounded shadow my-3 p-3">
         <span class="text-success"><%= e.date.strftime("%d %^b %Y") %></span>
         <span class="text-muted px-5"><%= e.title %></span>
