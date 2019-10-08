@@ -8,7 +8,7 @@ RSpec.describe 'events/show', type: :view do
   let!(:evt) do
     Event.create!(date: '2020-12-01',
                   title: 'Some randon event',
-                  user: user)
+                  creator: user)
   end
 
   before(:each) do

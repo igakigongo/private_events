@@ -2,7 +2,7 @@
   <p id="notice"><%= notice %></p>
 
   <h1 class="display-4"><%= @event.title %></h1>
-  <p class="font-italic text-muted">By <%= @event.user.name %></h5>
+  <p class="font-italic text-muted">By <%= @event.creator.name %></h5>
   <p class="text-success"><i class="fa fa-calendar px-3"></i><%= @event.date %></p>
 
   <p>

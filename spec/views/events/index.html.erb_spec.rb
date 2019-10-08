@@ -6,8 +6,8 @@ RSpec.describe 'events/index', type: :view do
   end
   before(:each) do
     assign(:events, [
-             Event.create!(date: '2020-01-01', title: 'event 1', user: user),
-             Event.create!(date: '2020-02-02', title: 'event 2', user: user)
+             Event.create!(date: '2020-01-01', title: 'event 1', creator: user),
+             Event.create!(date: '2020-02-02', title: 'event 2', creator: user)
            ])
   end
 

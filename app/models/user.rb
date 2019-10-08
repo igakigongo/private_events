@@ -3,4 +3,5 @@ class User < ApplicationRecord
 
   # associations
   has_many :events
+  has_many :event_attendances
 end
