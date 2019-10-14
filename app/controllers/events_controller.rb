@@ -1,11 +1,19 @@
 class EventsController < ApplicationController
   include ApplicationHelper
   before_action :set_event, only: %i[edit update destroy]
+  def default_query_options
+    { past: false }
+  end
 
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = if params[:past]
+                Event.is_past
+              else
+                Event.is_not_past
+              end
+    @past = params[:past]
   end
 
   # GET /events/1
