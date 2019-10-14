@@ -4,17 +4,46 @@
     <span class="btn btn-outline-success float-right" style="font-size: .9rem;"><%= link_to 'New Event', new_event_path %></span>
   </h1>
   <% if @events.any? %>
-    <% @events.sort_by{|e| e.date }.each do |e| %>
-      <p class="rounded shadow my-3 p-3">
-        <span class="text-success"><%= e.date.strftime("%d %^b %Y") %></span>
-        <span class="text-muted px-5"><%= e.title %></span>
-        <span class="float-right">
-          <%= link_to raw('<i class="fa fa-bars px-1" title="edit"></i>'), e %>
-          <%= link_to raw('<i class="fa fa-pencil px-1" title="edit"></i>'), edit_event_path(e) %>
-          <%= link_to raw('<i class="fa fa-trash px-1" title="remove"></i>'), e, method: :delete, data: { confirm: 'Are you sure?' } %>
-        </span>
-      <p>
-    <% end %>
+    <div class="row">
+      <div class="col-6">
+        <% if @events.any?{ |evt| !evt.date.past? } %>
+          <h5>Upcoming Events</h5>
+          <% @events.select { |evt| !evt.date.past? }.sort_by{|e| e.date }.each do |e| %>
+            <p class="rounded shadow my-3 p-3">
+              <span class="text-success"><%= e.date.strftime("%d %^b %Y") %></span>
+              <span class="text-muted px-5"><%= e.title %></span>
+              <span class="float-right">
+                <%= link_to raw('<i class="fa fa-bars px-1" title="edit"></i>'), e %>
+                <%= link_to raw('<i class="fa fa-pencil px-1" title="edit"></i>'), edit_event_path(e) %>
+                <%= link_to raw('<i class="fa fa-trash px-1" title="remove"></i>'), e, method: :delete, data: { confirm: 'Are you sure?' } %>
+              </span>
+            <p>
+          <% end %>
+        <% else %>
+          <div class="alert alert-warning">
+            <strong>Info:</strong> No upcoming events
+          </div>
+        <% end %>
+      </div>
+      <div class="col-6">
+        <% if @events.any?{ |e| e.date.past? } %>
+          <h5>Past Events</h5>
+          <% @events.select { |evt| evt.date.past? }.sort_by{|e| e.date }.each do |e| %>
+            <p class="rounded shadow my-3 p-3">
+              <span class="text-success"><%= e.date.strftime("%d %^b %Y") %></span>
+              <span class="text-muted px-5"><%= e.title %></span>
+              <span class="float-right">
+                <i class='fa fa-calendar-check-o text-success' title='you attended this event'></i>
+              </span>
+            <p>
+          <% end %>
+        <% else %>
+          <div class="alert alert-warning">
+            <strong>Info:</strong> No past events
+          </div>
+        <% end %>
+      </div>
+    </div>
   <% else %>
     <div class="alert alert-primary">
       No events
