@@ -16,23 +16,28 @@
       </p>
     </div>
     <div class="col-8">
-      <% if @user.events.any? %>
+      <% if @user.event_attendances.any? %>
         <h1 class="display-5 text-muted text-right">
           Events
         </h1>
-        <% @user.events.order(date: :asc).each do |e| %>
-          <p class="rounded shadow my-3 p-3">
-            <span class="text-success"><%= e.date.strftime("%d %^b %Y") %></span>
-            <span class="text-muted px-5"><%= e.title %></span>
+        <% @user.event_attendances.each do |e| %>
+          <p class="rounded shadow my-3 p-3 d-flex flex-row">
+            <span class="text-success"><%= e.event.date.strftime('%d-%b-%Y') %></span>
+            <span class="text-muted px-5"><%= e.event.title %></span>
+            <span class="ml-auto">
+              <% if e.event.date.past? %>
+                <i class='fa fa-calendar-check-o text-success' title='you attended this event'></i>
+              <% else %>
+                <i class='fa fa-calendar text-warning' title='this is an upcoming event'></i>
+              <% end %>
+            </span>
           <p>
         <% end %>
       <% else %>
         <div class="alert alert-primary">
-          <strong>Info:</strong> No events created by the user
+          <strong>Info:</strong> No planned/attended events found
         </div>
       <% end %>
     </div>
   </div>
 </div>
-
-

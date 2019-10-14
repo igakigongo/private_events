@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    @user = User.includes(:events).find(params[:id])
+    @user = User.includes(event_attendances: [:event]).order('events.date desc').find(params[:id])
   end
 
   # GET /users/new
