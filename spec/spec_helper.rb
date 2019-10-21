@@ -14,6 +14,9 @@ RSpec.configure do |config|
   config.example_status_persistence_file_path = 'spec/examples.txt'
   config.disable_monkey_patching!
   config.default_formatter = 'doc' if config.files_to_run.one?
+  # this uses either random or defined, passed as symbols
+  # you can alse define this at the spec level
+  # what I have put here is global
   config.order = :random
   Kernel.srand config.seed
   # config.profile_examples = 10
