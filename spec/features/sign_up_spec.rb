@@ -6,6 +6,7 @@ require 'rails_helper'
 # end
 
 RSpec.feature 'signing up', order: :defined do
+
   scenario 'should allow a user whose name does not exist in the system to sign up' do
     visit new_user_path
     fill_in 'Name', with: 'Edward'
@@ -17,6 +18,7 @@ RSpec.feature 'signing up', order: :defined do
   given(:other_user) { User.new(name: 'edward') }
 
   scenario 'should reject a user if the name is already taken up' do
+    User.create(name: 'Edward')
     visit new_user_path
     fill_in 'Name', with: other_user.name
 
