@@ -2,22 +2,30 @@
   <p id="notice"><%= notice %></p>
 </div>
 
-<div class="col-12 px-0">
-  <div class="row">
-    <div class="col-4">
-      <h1 class="display-4">
-        <%= @user.name %>
-      </h1>
-      <p>
-        <%= link_to 'Edit Profile', edit_user_path(@user), class: 'btn btn-outline-success' %>
-        <%= link_to 'Back to Users', users_path, class: 'btn btn-outline-secondary' %>
-      </p>
+<div class='col'>
+  <h1 class="display-4">
+    <%= @user.name %>
+  </h1>
+
+  <div class='row'>
+    <div class='col'>
+      <% if @user.events.any? %>
+        <h2 class="display-5 text-muted">Created Events</h2>
+        <% @user.events.each do |e| %>
+          <p class="rounded shadow my-3 p-3 d-flex flex-row justify-content-between">
+            <span class="text-muted"><%= e.title %></span>
+            <span class="text-success"><%= e.date.strftime('%d-%b-%Y') %></span>
+          <p>
+        <% end %>
+      <% else %>
+        <div class="alert alert-primary">
+          <strong>Info:</strong> No created events found
+        </div>
+      <% end %>
     </div>
-    <div class="col-8">
+    <div class='col'>
       <% if @user.event_attendances.any? %>
-        <h1 class="display-5 text-muted text-right">
-          Events
-        </h1>
+        <h2 class="display-5 text-muted text-right">Attended Events</h2>
         <% @user.event_attendances.each do |e| %>
           <p class="rounded shadow my-3 p-3 d-flex flex-row">
             <span class="text-success"><%= e.event.date.strftime('%d-%b-%Y') %></span>
