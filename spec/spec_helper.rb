@@ -20,3 +20,12 @@ RSpec.configure do |config|
   config.order = :random
   Kernel.srand config.seed
 end
+
+# sign in users and check that path is okay
+def sign_in_and_test_path_for(user)
+  visit signin_path
+  fill_in 'name', with: user.name
+  click_on('Authenticate')
+  path = "/users/#{user.id}"
+  expect(page).to have_current_path(path)
+end
