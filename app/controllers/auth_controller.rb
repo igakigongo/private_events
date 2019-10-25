@@ -19,4 +19,9 @@ class AuthController < ApplicationController
       end
     end
   end
+
+  def signout
+    session.delete(:current_user_id)
+    redirect_to events_path
+  end
 end

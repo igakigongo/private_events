@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   root 'home#index'
   get('/signin', to: 'auth#signin')
   post('/signin', to: 'auth#authenticate')
+  get('/signout', to: 'auth#signout')
 end
