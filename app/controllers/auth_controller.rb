@@ -15,8 +15,13 @@ class AuthController < ApplicationController
       else
         session[:current_user_id] = user.id
         flash[:success] = 'Welcome to the private events page'
-        redirect_to users_url
+        redirect_to user
       end
     end
+  end
+
+  def signout
+    session.delete(:current_user_id)
+    redirect_to events_path
   end
 end

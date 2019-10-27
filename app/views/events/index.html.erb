@@ -1,6 +1,6 @@
 <div class="col-12 px-0">
   <p id="notice"><%= notice %></p>
-  <h1 class="display-4">Events 
+  <h1 class="display-4"><%= @past ? 'Past ' : 'Upcoming ' %> Events 
     <span class="btn btn-outline-success float-right" style="font-size: .9rem;"><%= link_to 'New Event', new_event_path %></span>
   </h1>
   <% if @events.any? %>
@@ -9,15 +9,19 @@
         <span class="text-success"><%= e.date.strftime("%d %^b %Y") %></span>
         <span class="text-muted px-5"><%= e.title %></span>
         <span class="float-right">
-          <%= link_to raw('<i class="fa fa-bars px-1" title="edit"></i>'), e %>
-          <%= link_to raw('<i class="fa fa-pencil px-1" title="edit"></i>'), edit_event_path(e) %>
-          <%= link_to raw('<i class="fa fa-trash px-1" title="remove"></i>'), e, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% if @past %>
+            <i class='fa fa-calendar-check-o text-success' title='you attended this event'></i>
+          <% else %>
+            <%= link_to raw('<i class="fa fa-bars px-1" title="edit"></i>'), e %>
+            <%= link_to raw('<i class="fa fa-pencil px-1" title="edit"></i>'), edit_event_path(e) %>
+            <%= link_to raw('<i class="fa fa-trash px-1" title="remove"></i>'), e, method: :delete, data: { confirm: 'Are you sure?' } %>
+          <% end %>
         </span>
       <p>
     <% end %>
   <% else %>
-    <div class="alert alert-primary">
-      No events
+    <div class="alert alert-warning">
+      <strong>Info:</strong> No <%= @past ? 'past' : 'upcoming' %> events
     </div>
   <% end %>
 </div>

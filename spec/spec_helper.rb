@@ -14,7 +14,18 @@ RSpec.configure do |config|
   config.example_status_persistence_file_path = 'spec/examples.txt'
   config.disable_monkey_patching!
   config.default_formatter = 'doc' if config.files_to_run.one?
+  # this uses either random or defined, passed as symbols
+  # you can alse define this at the spec level
+  # what I have put here is global
   config.order = :random
   Kernel.srand config.seed
-  # config.profile_examples = 10
+end
+
+# sign in users and check that path is okay
+def sign_in_and_test_path_for(user)
+  visit signin_path
+  fill_in 'name', with: user.name
+  click_on('Authenticate')
+  path = "/users/#{user.id}"
+  expect(page).to have_current_path(path)
 end

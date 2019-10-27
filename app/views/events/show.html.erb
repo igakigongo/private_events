@@ -2,11 +2,34 @@
   <p id="notice"><%= notice %></p>
 
   <h1 class="display-4"><%= @event.title %></h1>
-  <p class="font-italic text-muted">By <%= @event.user.name %></h5>
+  <p class="font-italic text-muted">Created/Organized By: <%= @event.creator.name %></h5>
   <p class="text-success"><i class="fa fa-calendar px-3"></i><%= @event.date %></p>
 
-  <p>
-    <%= link_to 'Edit', edit_event_path(@event) %> |
-    <%= link_to 'Back', events_path %>
-  </p>
+  <% if @event.event_attendances.any? %>
+    <div class="alert alert-success">
+      <% total_people = @event.event_attendances.count %>
+      <strong>Info: </strong> The event was attended by <%= total_people < 2 ? "#{total_people} person" : "#{total_people} people" %>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @event.event_attendances.each_with_index do |ea, idx| %>
+        <tr>
+          <td><%= idx + 1 %></td>
+          <td><%= ea.attendee.name %></td>
+        </tr>
+        <% end %>
+      <tbody>
+    </table>
+  <% else %>
+    <div class="alert alert-warning">
+      <strong>Info: </strong> The event does not yet have any attendees
+    </div>
+  <% end %>
 </div>

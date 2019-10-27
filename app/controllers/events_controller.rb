@@ -1,17 +1,27 @@
 class EventsController < ApplicationController
   include ApplicationHelper
-  before_action :set_event, only: %i[edit update destroy]
+  before_action :authorize, except: %i[index]
+  before_action :set_event, only: %i[edit destroy update]
+  before_action :validate_ownership, only: %i[edit destroy update]
+  def default_query_options
+    { past: false }
+  end
 
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = if params[:past]
+                Event.is_past
+              else
+                Event.is_not_past
+              end
+    @past = params[:past]
   end
 
   # GET /events/1
   # GET /events/1.json
   def show
-    @event = Event.includes(:user).find(params[:id])
+    @event = Event.includes(:creator, event_attendances: [:attendee]).find(params[:id])
   end
 
   # GET /events/new
@@ -65,13 +75,24 @@ class EventsController < ApplicationController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
+  def authorize
+    return if principal
+
+    flash[:error] = 'You need to sign in before carrying out the intended action'
+    redirect_to signin_path
+  end
+
+  def event_params
+    params.require(:event).permit(:date, :title)
+  end
+
   def set_event
     @event = Event.find(params[:id])
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
-  def event_params
-    params.require(:event).permit(:date, :title)
+  def validate_ownership
+    return if @event.user_id == principal.id
+
+    redirect_to events_path, notice: 'You attempted to modify a resource that does not belong to you'
   end
 end
